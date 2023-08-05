@@ -1,2 +1,7 @@
 # PancraLocation
-Proyecto con Leaflet: Muestra polígonos desde SQLite, detecta geolocalización del usuario y permite crear polígonos personalizados
+
+## Resources
+
+- [Leafjet](https://leafletjs.com/)
+- [SQLite](https://www.sqlite.org/index.html)
+- [React](https://es.react.dev/)
