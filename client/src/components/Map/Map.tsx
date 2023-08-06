@@ -1,7 +1,7 @@
-import { MapContainer, Marker, Popup, TileLayer} from "react-leaflet";
+import { MapContainer, Marker, Popup, TileLayer, useMap} from "react-leaflet";
 import 'leaflet/dist/leaflet.css';
 import "./Map.scss";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 interface Coordinates {
   lat: number;
@@ -15,7 +15,17 @@ type Props = {
 
 function Map(props: Props) {
 
-  const [position, setPosition] = useState({ lat: 10.073572859883452, lng: -69.32142913341524 });
+  const [position, setPosition] = useState<Coordinates>({
+    lat: parseFloat(props.latitude) || 0,
+    lng: parseFloat(props.longitude) || 0,
+  });
+
+  useEffect(() => {
+    setPosition({
+      lat: parseFloat(props.latitude) || 0,
+      lng: parseFloat(props.longitude) || 0,
+    });
+  }, [props.latitude, props.longitude]);
 
   return (
     <div className="map">
@@ -29,9 +39,17 @@ function Map(props: Props) {
             Catedral de Barquisimeto. <br /> Lara
           </Popup>
         </Marker>
+
+        <ChangeView center={position} zoom={10} />
       </MapContainer>
     </div>
   );
+}
+
+function ChangeView({ center, zoom }: { center: Coordinates; zoom: number }) {
+  const map = useMap();
+  map.setView(center, zoom);
+  return null;
 }
 
 export default Map;
