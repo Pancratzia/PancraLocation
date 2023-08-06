@@ -15,6 +15,23 @@ function Home() {
     setLongitude(res.data.longitude);
   };
 
+  const handleRealTimeGeolocation = () => {
+    if ("geolocation" in navigator) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          setLatitude(position.coords.latitude.toString());
+          setLongitude(position.coords.longitude.toString());
+        },
+        (error) => {
+          console.error("Error getting geolocation:", error);
+        }
+      );
+    } else {
+      // Geolocation is not available in the browser
+      alert("Geolocation is not supported in this browser.");
+    }
+  };
+
   useEffect(() => {
     getData();
   }, []);
@@ -47,11 +64,11 @@ function Home() {
           </div>
           <p className="or">OR</p>
           <div className="realTime">
-            <a className="btn">Use Real Time Geolocation</a>
+            <a className="btn" onClick={handleRealTimeGeolocation}>Use Real Time Geolocation</a>
           </div>
 
           <div className="map">
-            <Map latitude={latitude} longitude={longitude} />
+            <Map latitude={latitude} longitude={longitude} useRealTimeGeolocation={false} />
           </div>
         </div>
       </div>

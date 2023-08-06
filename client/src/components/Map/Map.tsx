@@ -11,6 +11,7 @@ interface Coordinates {
 type Props = {
   latitude: string;
   longitude: string;
+  useRealTimeGeolocation?: boolean;
 };
 
 function Map(props: Props) {
@@ -27,9 +28,16 @@ function Map(props: Props) {
     });
   }, [props.latitude, props.longitude]);
 
+  useEffect(() => {
+    if (props.useRealTimeGeolocation) {
+      const leafletMap = useMap();
+      leafletMap.flyTo(position, 15);
+    }
+  }, [props.useRealTimeGeolocation, position]);
+
   return (
     <div className="map">
-      <MapContainer  center={position} zoom={15} scrollWheelZoom={true}>
+      <MapContainer  center={position} zoom={13} scrollWheelZoom={true}>
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -40,7 +48,7 @@ function Map(props: Props) {
           </Popup>
         </Marker>
 
-        <ChangeView center={position} zoom={10} />
+        <ChangeView center={position} zoom={13} />
       </MapContainer>
     </div>
   );
@@ -48,7 +56,7 @@ function Map(props: Props) {
 
 function ChangeView({ center, zoom }: { center: Coordinates; zoom: number }) {
   const map = useMap();
-  map.setView(center, zoom);
+  map.flyTo(center, zoom);
   return null;
 }
 
