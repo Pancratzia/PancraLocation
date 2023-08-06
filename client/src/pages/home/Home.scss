@@ -89,17 +89,10 @@
         }
 
       }
-
-      .btn {
-        
-        margin: 2rem 0 0;
-        @include md {
-          margin: 0;
-        }
-      }
     }
 
-    .or{
+    .instruction{
+      text-transform: uppercase;
       margin: 1rem 0;
       font-weight: bold;
       color: $darkest-color;

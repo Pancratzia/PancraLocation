@@ -5,7 +5,6 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 
 function Home() {
-
   const [latitude, setLatitude] = useState("");
   const [longitude, setLongitude] = useState("");
 
@@ -50,25 +49,44 @@ function Home() {
         <hr />
 
         <div className="locations">
+        <p className="instruction">
+              Enter your location manually
+            </p>
           <div className="location">
             <div className="field">
               <label htmlFor="latitude">Latitude:</label>
-              <input type="text" id="latitude" />
+              <input
+                type="text"
+                id="latitude"
+                value={latitude}
+                onChange={(e) => setLatitude(e.target.value)}
+              />
             </div>
             <div className="field">
               <label htmlFor="longitude">Longitude:</label>
-              <input type="text" id="longitude" />
+              <input
+                type="text"
+                id="longitude"
+                value={longitude}
+                onChange={(e) => setLongitude(e.target.value)}
+              />
             </div>
-
-            <a className="btn">Find</a>
           </div>
-          <p className="or">OR</p>
+
+          <p className="instruction">OR</p>
+
           <div className="realTime">
-            <a className="btn" onClick={handleRealTimeGeolocation}>Use Real Time Geolocation</a>
+            <a className="btn" onClick={handleRealTimeGeolocation}>
+              Use Real Time Geolocation
+            </a>
           </div>
 
           <div className="map">
-            <Map latitude={latitude} longitude={longitude} useRealTimeGeolocation={false} />
+            <Map
+              latitude={latitude}
+              longitude={longitude}
+              useRealTimeGeolocation={false}
+            />
           </div>
         </div>
       </div>
