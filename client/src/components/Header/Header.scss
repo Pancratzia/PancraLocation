@@ -92,6 +92,10 @@
           background-color: $light-color;
           color: $dark-color;
         }
+        &.isActive{
+          background-color: $light-color;
+          color: $dark-color;
+        }
 
       }
     }

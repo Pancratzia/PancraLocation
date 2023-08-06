@@ -1,7 +1,9 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import "./Header.scss";
 
 function Header() {
+  const location = useLocation();
+
   return (
     <div className="header">
       <div className="site-name">
@@ -20,13 +22,13 @@ function Header() {
       <div className="container">
         <div className="nav">
           <ul className="links">
-            <li>
-              <Link className="link" to="/">
+          <li>
+              <Link className={`link ${location.pathname === '/' ? 'isActive' : ''}`} to="/">
                 Home
               </Link>
             </li>
             <li>
-              <Link className="link" to="/config">
+              <Link className={`link ${location.pathname === '/config' ? 'isActive' : ''}`} to="/config">
                 Configuration
               </Link>
             </li>
