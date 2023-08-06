@@ -1,3 +1,26 @@
-.footer{
-    
+@import "../../assets/variables.scss";
+
+.footer {
+  background-color: $dark-color;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 2rem 0;
+  color: white;
+
+  .pancratzia {
+    margin-bottom: 1rem;
+
+    .link {
+      transition: all 0.5s;
+      &:hover {
+        color: $lightest-color;
+      }
+    }
+  }
+
+  .copy{
+    font-size: 1.2rem;
+  }
 }
