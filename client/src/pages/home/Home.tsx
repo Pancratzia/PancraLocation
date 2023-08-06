@@ -1,7 +1,24 @@
 import Map from "../../components/Map/Map";
 import "./Home.scss";
 
+import { useEffect, useState } from "react";
+import axios from "axios";
+
 function Home() {
+
+  const [latitude, setLatitude] = useState("");
+  const [longitude, setLongitude] = useState("");
+
+  const getData = async () => {
+    const res = await axios.get("https://geolocation-db.com/json/");
+    setLatitude(res.data.latitude);
+    setLongitude(res.data.longitude);
+  };
+
+  useEffect(() => {
+    getData();
+  }, []);
+
   return (
     <div className="home">
       <div className="container">
@@ -34,7 +51,7 @@ function Home() {
           </div>
 
           <div className="map">
-            <Map />
+            <Map latitude={latitude} longitude={longitude} />
           </div>
         </div>
       </div>

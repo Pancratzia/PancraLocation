@@ -3,7 +3,17 @@ import 'leaflet/dist/leaflet.css';
 import "./Map.scss";
 import { useState } from "react";
 
-function Map() {
+interface Coordinates {
+  lat: number;
+  lng: number;
+}
+
+type Props = {
+  latitude: string;
+  longitude: string;
+};
+
+function Map(props: Props) {
 
   const [position, setPosition] = useState({ lat: 10.073572859883452, lng: -69.32142913341524 });
 
