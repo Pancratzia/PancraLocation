@@ -5,7 +5,9 @@ function Home() {
   return (
     <div className="home">
       <div className="container">
-        <h1>PancraLocation</h1>
+        <h1>
+          Pancra<span>Location</span>
+        </h1>
         <p>
           Enter your coordinates or enable real-time geolocation to determine
           your position on the map:
@@ -15,20 +17,25 @@ function Home() {
 
         <div className="locations">
           <div className="location">
-            <label htmlFor="latitude">Latitude:</label>
-            <input type="text" id="latitude" />
-            <label htmlFor="longitude">Longitude:</label>
-            <input type="text" id="longitude" />
-            <button>Find</button>
+            <div className="field">
+              <label htmlFor="latitude">Latitude:</label>
+              <input type="text" id="latitude" />
+            </div>
+            <div className="field">
+              <label htmlFor="longitude">Longitude:</label>
+              <input type="text" id="longitude" />
+            </div>
+
+            <a className="btn">Find</a>
           </div>
+          <p className="or">OR</p>
           <div className="realTime">
-            <button>Use Real Time Geolocation</button>
+            <a className="btn">Use Real Time Geolocation</a>
           </div>
 
           <div className="map">
-              <Map />
+            <Map />
           </div>
-
         </div>
       </div>
     </div>
