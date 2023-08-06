@@ -51,7 +51,6 @@
         align-items: center;
       }
 
-
       .field {
         display: flex;
         flex-direction: column;
@@ -71,7 +70,7 @@
           transition: all 1s;
 
           @include md {
-            margin-right: .5rem;
+            margin-right: 0.5rem;
           }
         }
         input {
@@ -87,11 +86,10 @@
             width: 100%;
           }
         }
-
       }
     }
 
-    .instruction{
+    .instruction {
       text-transform: uppercase;
       margin: 1rem 0;
       font-weight: bold;
@@ -125,11 +123,9 @@
     @include sm {
       font-size: 1.6rem;
     }
-
     &:hover {
       color: $light-color;
       background-color: $darkest-color;
     }
   }
-
 }
