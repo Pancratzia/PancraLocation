@@ -1,3 +1,7 @@
+@import "../../assets/responsive.scss";
 .map{
-    
+    margin: 2rem;
+    .leaflet-container{
+        height: 50rem;
+    }
 }
