@@ -1,9 +1,15 @@
-import "./Config.scss"
+import "./Config.scss";
 
 function Config() {
   return (
-    <div className='config'>Config</div>
-  )
+    <div className="config">
+      <div className="container">
+        
+        
+
+      </div>
+    </div>
+  );
 }
 
 export default Config;

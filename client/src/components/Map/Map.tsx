@@ -10,7 +10,7 @@ interface Coordinates {
 }
 
 interface PolygonData {
-  coordinates: LatLngExpression[]; // Use LatLngExpression for polygon coordinates
+  coordinates: LatLngExpression[];
   title: string;
   color: string;
 }
@@ -34,7 +34,7 @@ const polygons: PolygonData[] = [
       [10.08225749860928, -69.30652350819214]
     ],
     title: "Polygon 1",
-    color: "blue",
+    color: "#555",
   },
   {
     coordinates: [
@@ -45,7 +45,7 @@ const polygons: PolygonData[] = [
       [10.068547892095253, -69.339039869577]
     ],
     title: "Polygon 2",
-    color: "red",
+    color: "#333",
   },
 ];
 
