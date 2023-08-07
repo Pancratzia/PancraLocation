@@ -1,0 +1,29 @@
+.table {
+  margin: 2rem 0;
+
+  .dataGrid {
+    background-color: white;
+    padding: 1rem 0.5rem;
+
+    .MuiDataGrid-toolbarContainer {
+      flex-direction: row-reverse;
+    }
+
+    .MuiDataGrid-cell {
+      &:focus {
+        outline: none;
+      }
+    }
+
+    .action {
+      display: flex;
+      gap: 1rem;
+
+      svg {
+        width: 2rem;
+        height: 2rem;
+        cursor: pointer;
+      }
+    }
+  }
+}
