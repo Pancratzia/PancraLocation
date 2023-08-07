@@ -1,9 +1,15 @@
+@import "../../assets/responsive.scss";
+
 .table {
   margin: 2rem 0;
 
   .dataGrid {
     background-color: white;
     padding: 1rem 0.5rem;
+    
+    @include md {
+      font-size: 1.6rem;
+    }
 
     .MuiDataGrid-toolbarContainer {
       flex-direction: row-reverse;
