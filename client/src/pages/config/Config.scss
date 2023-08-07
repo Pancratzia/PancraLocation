@@ -1,2 +1,39 @@
+@import "../../assets/variables.scss";
+@import "../../assets/responsive.scss";
 .config{
+
+    h1{
+        text-align: center;
+        color: white;
+        margin: 2rem 0;
+    }
+
+    .add{
+        margin: 2rem 0;
+
+        .btn{
+            background-color: $lightest-color;
+            color: $darkest-color;
+            padding: 1rem 2rem;
+            font-size: 1.2rem;
+            text-decoration: none;
+            text-transform: uppercase;
+            font-family: inherit;
+            font-weight: bold;
+            border-radius: 2rem;
+            transition: all 0.5s;
+            cursor: pointer;
+            
+        
+            @include sm {
+              font-size: 1.6rem;
+            }
+            &:hover {
+              color: $light-color;
+              background-color: $darkest-color;
+            }
+        }
+
+    }
+
 }

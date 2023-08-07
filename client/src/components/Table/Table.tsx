@@ -16,7 +16,7 @@ const Table = (props: Props) => {
   const actionColumn: GridColDef = {
     field: "action",
     headerName: "Action",
-    width: 150,
+    flex: 1,
     renderCell: (params) => {
       return (
         <div className="action">
@@ -99,7 +99,7 @@ const Table = (props: Props) => {
           disableColumnFilter
           disableDensitySelector
           disableColumnSelector
-          
+
         />
       </Box>
     </div>

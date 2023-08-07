@@ -2,17 +2,19 @@
 import { GridColDef } from "@mui/x-data-grid";
 import Table from "../../components/Table/Table";
 import "./Config.scss";
+import { Link } from "react-router-dom";
 
 const columns: GridColDef[] = [
-  { field: "id", headerName: "ID" },
+  { field: "id", headerName: "ID", flex: 1},
   {
     field: "polygon",
-    headerName: "Polygon"
-    
+    headerName: "Polygon",
+    flex: 2,
   },
   {
     field: "color",
-    headerName: "Color"
+    headerName: "Color",
+    flex: 2,
   },
 ];
 
@@ -31,7 +33,9 @@ function Config() {
         
         <h1>Your Polygons</h1>
 
-        <button>Add New Polygon</button>
+        <div className="add">
+          <Link to={"/"} className="btn">Add New Polygon</Link>
+        </div>
 
         <Table columns={columns} rows={rows} />
 
