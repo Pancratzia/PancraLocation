@@ -2,18 +2,21 @@
 import { GridColDef } from "@mui/x-data-grid";
 import Table from "../../components/Table/Table";
 import "./Config.scss";
-import { Link } from "react-router-dom";
+import { useState } from "react";
+import Add from "../../components/Add/Add";
 
 const columns: GridColDef[] = [
-  { field: "id", headerName: "ID", flex: 1},
+  { field: "id", headerName: "ID", flex: 1, type: "number" },
   {
     field: "polygon",
     headerName: "Polygon",
+    type: "string",
     flex: 2,
   },
   {
     field: "color",
     headerName: "Color",
+    type: "string",
     flex: 2,
   },
 ];
@@ -27,6 +30,10 @@ const rows = [
 ];
 
 function Config() {
+
+  const [open, setOpen] = useState(false);
+
+
   return (
     <div className="config">
       <div className="container">
@@ -34,10 +41,11 @@ function Config() {
         <h1>Your Polygons</h1>
 
         <div className="add">
-          <Link to={"/"} className="btn">Add New Polygon</Link>
+          <span onClick={() => setOpen(true)} className="btn">Add New Polygon</span>
         </div>
 
         <Table columns={columns} rows={rows} />
+        {open && <Add setOpen={setOpen} columns={columns} />}
 
       </div>
     </div>
