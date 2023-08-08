@@ -12,6 +12,7 @@ function Add(props: Props) {
     { id: 1, latitude: "", longitude: "" },
     { id: 2, latitude: "", longitude: "" },
     { id: 3, latitude: "", longitude: "" },
+    { id: 4, latitude: "", longitude: "" },
   ]);
 
   const handleAddCoordinate = () => {
@@ -22,7 +23,7 @@ function Add(props: Props) {
   };
 
   const handleRemoveCoordinate = () => {
-    if (coordinates.length > 3) {
+    if (coordinates.length > 4) {
       setCoordinates((prevCoordinates) => prevCoordinates.slice(0, -1));
     }
   };
@@ -93,9 +94,9 @@ function Add(props: Props) {
           <button
             type="button"
             onClick={
-              coordinates.length >= 4 ? handleRemoveCoordinate : undefined
+              coordinates.length >= 5 ? handleRemoveCoordinate : undefined
             }
-            disabled={coordinates.length < 4}
+            disabled={coordinates.length < 5}
           >
             -
           </button>
