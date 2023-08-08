@@ -13,11 +13,17 @@
     align-items: center;
 
     .modal{
-        padding: 5rem;
+        padding: 1rem;
         margin: 0 1rem ;
         border-radius: 1rem;
         background-color: $lightest-color;
         position: relative;
+        max-height: 90%;
+        overflow-y: auto;
+
+        @include md{
+            padding: 5rem;
+        }
 
         h1{
             margin-bottom: 4rem;
@@ -54,7 +60,7 @@
                 input{
                     padding: 1rem;
                     background-color: transparent;
-                    color: white;
+                    color: black;
                     outline: none;
                     border: .1rem solid $darkest-color;
                     border-radius: .3rem;
@@ -66,6 +72,25 @@
                 width: 100%;
                 padding: 1rem;
                 cursor: pointer;
+                margin: .5rem 0;
+                background-color: $lightest-color;
+                color: $darkest-color;
+                font-size: 1.2rem;
+                text-decoration: none;
+                text-transform: uppercase;
+                font-family: inherit;
+                font-weight: bold;
+                border-radius: 2rem;
+                transition: all 0.5s;
+                
+            
+                @include sm {
+                  font-size: 1.6rem;
+                }
+                &:hover {
+                  color: $light-color;
+                  background-color: $darkest-color;
+                }
             }
         }
     }
