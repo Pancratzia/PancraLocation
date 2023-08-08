@@ -3,10 +3,12 @@ require('dotenv').config();
 
 const sqlite3 = require('sqlite3').verbose();
 const express = require('express');
+const cors = require('cors');
 const bodyParser = require('body-parser');
 const port = parseInt(process.env.PORT) || 3000;
 
 const app = express();
+app.use(cors()); 
 const db = new sqlite3.Database(`./database/${process.env.DB_NAME}.db`);
 
 app.use(bodyParser.json());

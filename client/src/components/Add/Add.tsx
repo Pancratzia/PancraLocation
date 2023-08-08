@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { GridColDef } from "@mui/x-data-grid";
+import axios from "axios"; 
 import "./Add.scss";
 
 type Props = {
@@ -28,10 +29,34 @@ function Add(props: Props) {
     }
   };
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    // Add or modify new user
+  
+    try {
+      const formData = new FormData(event.currentTarget);
+      const name = formData.get("name") as string;
+      const color = formData.get("color") as string;
+  
+      const coordinatesToSend = coordinates.map((coord) => ({
+        latitude: formData.get(`latitude-${coord.id}`) as string,
+        longitude: formData.get(`longitude-${coord.id}`) as string,
+      }));
+      
+      const response = await axios.post('http://localhost:3000/api/polygons', {
+        name,
+        color,
+        coordinates: coordinatesToSend,
+      });
+  
+      if (response.status === 200) {
+        alert(response.data.message);
+        props.setOpen(false);
+      }
+    } catch (error) {
+      alert(error);
+    }
   };
+  
 
   return (
     <div className="addModal">
@@ -47,7 +72,7 @@ function Add(props: Props) {
             .map((column) => (
               <div key={column.field} className="item">
                 <label htmlFor={column.field}>{column.headerName}</label>
-                <input type={column.type} id={column.field} />
+                <input type={column.type} name={column.field} />
               </div>
             ))}
 
@@ -59,6 +84,7 @@ function Add(props: Props) {
                   type="text"
                   id={`latitude-${coordinate.id}`}
                   value={coordinate.latitude}
+                  name={`latitude-${coordinate.id}`}
                   onChange={(e) =>
                     setCoordinates((prevCoordinates) =>
                       prevCoordinates.map((coord) =>
@@ -77,6 +103,7 @@ function Add(props: Props) {
                   type="text"
                   id={`longitude-${coordinate.id}`}
                   value={coordinate.longitude}
+                  name={`longitude-${coordinate.id}`}
                   onChange={(e) =>
                     setCoordinates((prevCoordinates) =>
                       prevCoordinates.map((coord) =>

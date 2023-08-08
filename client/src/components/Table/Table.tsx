@@ -1,7 +1,7 @@
 import Box from "@mui/material/Box";
 import { DataGrid, GridColDef, GridToolbar } from "@mui/x-data-grid";
+import axios from "axios";
 import "./Table.scss";
-import { Link } from "react-router-dom";
 
 type Props = {
   columns: GridColDef[];
@@ -9,8 +9,13 @@ type Props = {
 };
 
 const Table = (props: Props) => {
-  const handleDelete = (id: number) => {
-    console.log("Your item has been deleted");
+  const handleDelete = async (id: number) => {
+    try {
+      await axios.delete(`http://localhost:3000/api/polygons/${id}`);
+      alert("Polygon and coordinates deleted successfully");
+    } catch (error) {
+      console.error("Error deleting polygon:", error);
+    }
   };
 
   const actionColumn: GridColDef = {
@@ -52,13 +57,34 @@ const Table = (props: Props) => {
     },
   };
 
+
+  const colorColumn: GridColDef = {
+    field: "color",
+    headerName: "Color",
+    flex: 1,
+    renderCell: (params) => (
+      <div
+        style={{
+          width: "100%",
+          height: "100%",
+          backgroundColor: params.value as string,
+        }}
+      ></div>
+    ),
+  };
+
+  const filteredColumns = props.columns.filter((col) => col.field !== "color");
+
+  const modifiedColumns = [...filteredColumns, colorColumn, actionColumn];
+
+
   return (
     <div className="table">
       <Box sx={{ height: "auto", width: "100%" }}>
         <DataGrid
           className="dataGrid"
           rows={props.rows}
-          columns={[...props.columns, actionColumn]}
+          columns={modifiedColumns}
           initialState={{
             pagination: {
               paginationModel: {
