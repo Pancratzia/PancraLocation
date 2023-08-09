@@ -12,7 +12,7 @@ type Props = {
 const Table = (props: Props) => {
   const handleDelete = async (id: number) => {
     try {
-      await axios.delete(`http://localhost:3000/api/polygons/${id}`);
+      await axios.delete(`./api/polygons/${id}`);
       alert("Polygon and coordinates deleted successfully");
       props.onPolygonDeleted(); 
     } catch (error) {

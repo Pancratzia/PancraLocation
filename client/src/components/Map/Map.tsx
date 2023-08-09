@@ -1,6 +1,5 @@
 import { MapContainer, Marker, Polygon, Popup, TileLayer, Tooltip, useMap} from "react-leaflet";
 import { useEffect, useState } from "react";
-import { LatLngExpression } from "leaflet";
 import axios from "axios";
 import 'leaflet/dist/leaflet.css';
 import "./Map.scss";
@@ -46,7 +45,7 @@ function Map(props: Props) {
   }, [props.useRealTimeGeolocation, position]);
 
   useEffect(() => {
-    axios.get('http://localhost:3000/api/polygons')
+    axios.get('./api/polygons')
       .then(response => {
         setPolygons(response.data);
       })
@@ -69,7 +68,7 @@ function Map(props: Props) {
           </Popup>
         </Marker>
 
-        {polygons.map((polygon, index) => (
+        {polygons.map((polygon) => (
           <Polygon
             key={polygon.id}
             positions={polygon.coordinates.map(coord => [coord.latitude, coord.longitude])}

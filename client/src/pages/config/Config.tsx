@@ -34,7 +34,7 @@ function Config() {
   }, []);
 
   const fetchPolygons = () => {
-    axios.get('http://localhost:3000/api/polygons')
+    axios.get('./api/polygons')
       .then(response => {
         setPolygons(response.data);
       })

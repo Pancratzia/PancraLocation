@@ -43,7 +43,7 @@ function Add(props: Props) {
         longitude: formData.get(`longitude-${coord.id}`) as string,
       }));
       
-      const response = await axios.post('http://localhost:3000/api/polygons', {
+      const response = await axios.post('./api/polygons', {
         name,
         color,
         coordinates: coordinatesToSend,
