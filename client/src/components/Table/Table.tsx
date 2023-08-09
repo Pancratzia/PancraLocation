@@ -6,6 +6,7 @@ import "./Table.scss";
 type Props = {
   columns: GridColDef[];
   rows: object[];
+  onPolygonDeleted: () => void;
 };
 
 const Table = (props: Props) => {
@@ -13,6 +14,7 @@ const Table = (props: Props) => {
     try {
       await axios.delete(`http://localhost:3000/api/polygons/${id}`);
       alert("Polygon and coordinates deleted successfully");
+      props.onPolygonDeleted(); 
     } catch (error) {
       console.error("Error deleting polygon:", error);
     }

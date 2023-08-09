@@ -6,6 +6,7 @@ import "./Add.scss";
 type Props = {
   columns: GridColDef[];
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  onPolygonAdded: () => void;
 };
 
 function Add(props: Props) {
@@ -51,6 +52,7 @@ function Add(props: Props) {
       if (response.status === 200) {
         alert(response.data.message);
         props.setOpen(false);
+        props.onPolygonAdded();
       }
     } catch (error) {
       alert(error);

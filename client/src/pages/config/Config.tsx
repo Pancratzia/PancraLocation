@@ -28,8 +28,12 @@ function Config() {
   const [open, setOpen] = useState(false);
   const [polygons, setPolygons] = useState([]);
 
+
   useEffect(() => {
-    // Llamada a la API para obtener los datos de los polígonos
+    fetchPolygons();
+  }, []);
+
+  const fetchPolygons = () => {
     axios.get('http://localhost:3000/api/polygons')
       .then(response => {
         setPolygons(response.data);
@@ -37,7 +41,15 @@ function Config() {
       .catch(error => {
         console.error("Error fetching polygons:", error);
       });
-  }, []);
+  };
+
+  const handlePolygonAdded = () => {
+    fetchPolygons();
+  };
+
+  const handlePolygonDeleted = () => {
+    fetchPolygons();
+  };
 
   
 
@@ -51,8 +63,8 @@ function Config() {
           <span onClick={() => setOpen(true)} className="btn">Add New Polygon</span>
         </div>
 
-        <Table columns={columns} rows={polygons} />
-        {open && <Add setOpen={setOpen} columns={columns} />}
+        <Table columns={columns} rows={polygons} onPolygonDeleted={handlePolygonDeleted} />
+        {open && <Add setOpen={setOpen} columns={columns} onPolygonAdded={handlePolygonAdded} />}
 
       </div>
     </div>
