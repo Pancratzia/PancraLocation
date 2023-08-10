@@ -2,6 +2,7 @@ import { useState } from "react";
 import { MapContainer, TileLayer, useMapEvents, FeatureGroup, Polygon } from "react-leaflet";
 import "leaflet-draw/dist/leaflet.draw.css";
 import { EditControl } from "react-leaflet-draw";
+import './DrawableMap.scss';
 
 type DrawableMapProps = {
   onPolygonDrawn: (coordinates: [number, number][]) => void;
@@ -33,7 +34,7 @@ function DrawableMap({ onPolygonDrawn }: DrawableMapProps) {
   };
 
   return (
-    <MapContainer center={[0, 0]} zoom={3} style={{ height: "300px", width: "100%" }}>
+    <MapContainer className="drawableMap" center={[0, 0]} zoom={3}>
       <MapEvents />
       <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
       <FeatureGroup>
