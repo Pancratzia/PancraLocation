@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { GridColDef } from "@mui/x-data-grid";
 import axios from "axios";
-import "./Add.scss";
+import Swal from 'sweetalert2';
 import DrawableMap from "../DrawableMap/DrawableMap";
+import "./Add.scss";
 
 type Props = {
   columns: GridColDef[];
@@ -36,14 +37,24 @@ function Add(props: Props) {
       });
   
       if (response.status === 200) {
-        alert(response.data.message);
+        Swal.fire({
+          icon: 'success',
+          title: 'Polygon Added',
+          text: response.data.message,
+        });
         props.setOpen(false);
         props.onPolygonAdded();
       }
+      
     } catch (error) {
-      alert(error);
+      if (axios.isAxiosError(error)) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: error.message,
+        });
     }
-  };
+  }};
   
 
   return (
