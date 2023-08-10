@@ -82,11 +82,12 @@ function Home() {
           </div>
 
           <div className="map">
-            <Map
-              latitude={latitude}
-              longitude={longitude}
-              useRealTimeGeolocation={false}
-            />
+          {latitude !== "" && longitude !== "" && (
+          <Map
+            latitude={latitude}
+            longitude={longitude}
+            useRealTimeGeolocation={false}
+          />)}
           </div>
         </div>
       </div>
