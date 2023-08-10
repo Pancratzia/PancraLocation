@@ -8,6 +8,7 @@ function Home() {
   const [latitude, setLatitude] = useState("");
   const [longitude, setLongitude] = useState("");
 
+
   const getData = async () => {
     const res = await axios.get("https://geolocation-db.com/json/");
     setLatitude(res.data.latitude);
@@ -26,7 +27,6 @@ function Home() {
         }
       );
     } else {
-      // Geolocation is not available in the browser
       alert("Geolocation is not supported in this browser.");
     }
   };
@@ -34,6 +34,11 @@ function Home() {
   useEffect(() => {
     getData();
   }, []);
+
+  const handleMapClick = (lat: number, lng: number) => {
+    setLatitude(lat.toString());
+    setLongitude(lng.toString());
+  };
 
   return (
     <div className="home">
@@ -87,6 +92,7 @@ function Home() {
             latitude={latitude}
             longitude={longitude}
             useRealTimeGeolocation={false}
+            onMapClick={handleMapClick}
           />)}
           </div>
         </div>
