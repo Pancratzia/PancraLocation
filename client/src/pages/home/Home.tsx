@@ -8,6 +8,7 @@ function Home() {
   const [latitude, setLatitude] = useState("");
   const [longitude, setLongitude] = useState("");
 
+
   const getData = async () => {
     const res = await axios.get("https://geolocation-db.com/json/");
     setLatitude(res.data.latitude);
@@ -26,7 +27,6 @@ function Home() {
         }
       );
     } else {
-      // Geolocation is not available in the browser
       alert("Geolocation is not supported in this browser.");
     }
   };
@@ -35,6 +35,11 @@ function Home() {
     getData();
   }, []);
 
+  const handleMapClick = (lat: number, lng: number) => {
+    setLatitude(lat.toString());
+    setLongitude(lng.toString());
+  };
+
   return (
     <div className="home">
       <div className="container">
@@ -42,8 +47,7 @@ function Home() {
           Pancra<span>Location</span>
         </h1>
         <p>
-          Enter your coordinates or enable real-time geolocation to determine
-          your position on the map:
+          Enter your coordinates, click on the map or enable real-time geolocation to get your location:
         </p>
 
         <hr />
@@ -82,11 +86,13 @@ function Home() {
           </div>
 
           <div className="map">
-            <Map
-              latitude={latitude}
-              longitude={longitude}
-              useRealTimeGeolocation={false}
-            />
+          {latitude !== "" && longitude !== "" && (
+          <Map
+            latitude={latitude}
+            longitude={longitude}
+            useRealTimeGeolocation={false}
+            onMapClick={handleMapClick}
+          />)}
           </div>
         </div>
       </div>

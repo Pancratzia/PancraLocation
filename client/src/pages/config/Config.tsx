@@ -1,12 +1,11 @@
-
-import { GridColDef } from "@mui/x-data-grid";
-import Table from "../../components/Table/Table";
-import "./Config.scss";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Add from "../../components/Add/Add";
+import Table from "../../components/Table/Table";
+import "./Config.scss";
+import Swal from 'sweetalert2';
 
-const columns: GridColDef[] = [
+const columns = [
   { field: "id", headerName: "ID", flex: 1, type: "number" },
   {
     field: "name",
@@ -22,12 +21,9 @@ const columns: GridColDef[] = [
   },
 ];
 
-
 function Config() {
-
   const [open, setOpen] = useState(false);
   const [polygons, setPolygons] = useState([]);
-
 
   useEffect(() => {
     fetchPolygons();
@@ -51,24 +47,35 @@ function Config() {
     fetchPolygons();
   };
 
-  
+  const handleAddClick = () => {
+    if (polygons.length < 5) {
+      setOpen(true);
+    } else {
+      Swal.fire({
+        icon: 'error',
+        title: 'Limit Exceeded',
+        text: 'You cannot add more than 5 polygons!',
+      });
+    }
+  };
 
   return (
     <div className="config">
       <div className="container">
-        
         <h1>Your Polygons</h1>
-
+        {polygons.length < 5 && (
         <div className="add">
-          <span onClick={() => setOpen(true)} className="btn">Add New Polygon</span>
+          <span onClick={handleAddClick} className="btn">
+            Add New Polygon
+          </span>
         </div>
-
+         )}
         <Table columns={columns} rows={polygons} onPolygonDeleted={handlePolygonDeleted} />
         {open && <Add setOpen={setOpen} columns={columns} onPolygonAdded={handlePolygonAdded} />}
-
       </div>
     </div>
   );
 }
 
 export default Config;
+

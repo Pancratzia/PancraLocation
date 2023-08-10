@@ -1,6 +1,8 @@
 import Box from "@mui/material/Box";
 import { DataGrid, GridColDef, GridToolbar } from "@mui/x-data-grid";
 import axios from "axios";
+import Swal from "sweetalert2";
+
 import "./Table.scss";
 
 type Props = {
@@ -12,9 +14,13 @@ type Props = {
 const Table = (props: Props) => {
   const handleDelete = async (id: number) => {
     try {
-      await axios.delete(`./api/polygons/${id}`);
-      alert("Polygon and coordinates deleted successfully");
-      props.onPolygonDeleted(); 
+      await axios.delete(`http://localhost:3000/api/polygons/${id}`);
+      Swal.fire({
+        icon: "success",
+        title: "Deleted",
+        text: "Polygon and coordinates deleted successfully",
+      });
+      props.onPolygonDeleted();
     } catch (error) {
       console.error("Error deleting polygon:", error);
     }
@@ -27,7 +33,6 @@ const Table = (props: Props) => {
     renderCell: (params) => {
       return (
         <div className="action">
-
           <div
             className="delete"
             onClick={() => {
@@ -59,7 +64,6 @@ const Table = (props: Props) => {
     },
   };
 
-
   const colorColumn: GridColDef = {
     field: "color",
     headerName: "Color",
@@ -78,7 +82,6 @@ const Table = (props: Props) => {
   const filteredColumns = props.columns.filter((col) => col.field !== "color");
 
   const modifiedColumns = [...filteredColumns, colorColumn, actionColumn];
-
 
   return (
     <div className="table">
@@ -108,7 +111,6 @@ const Table = (props: Props) => {
           disableColumnFilter
           disableDensitySelector
           disableColumnSelector
-
         />
       </Box>
     </div>
