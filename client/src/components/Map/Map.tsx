@@ -85,7 +85,7 @@ function Map(props: Props) {
               coord.latitude,
               coord.longitude,
             ])}
-            pathOptions={{ color: polygon.color }}
+            pathOptions={{ color: polygon.color,  fillRule: "nonzero",}}
           >
             <Tooltip>{polygon.name}</Tooltip>
           </Polygon>
