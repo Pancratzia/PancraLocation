@@ -47,8 +47,7 @@ function Home() {
           Pancra<span>Location</span>
         </h1>
         <p>
-          Enter your coordinates or enable real-time geolocation to determine
-          your position on the map:
+          Enter your coordinates, click on the map or enable real-time geolocation to get your location:
         </p>
 
         <hr />
