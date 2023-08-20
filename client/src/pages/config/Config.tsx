@@ -21,6 +21,19 @@ const columns = [
   },
 ];
 
+export interface Polygon {
+  type: string;
+  properties: {
+    name: string;
+    color: string;
+  };
+  geometry: {
+    type: string;
+    coordinates: number[][][];
+  };
+  _id: string;
+}
+
 function Config() {
   const [open, setOpen] = useState(false);
   const [polygons, setPolygons] = useState([]);
@@ -32,7 +45,12 @@ function Config() {
   const fetchPolygons = async () => {
     try {
       const response = await axios.get('http://localhost:3000/api/polygons');
-      setPolygons(response.data);
+      const formattedPolygons = response.data.map((polygon: Polygon, index: number) => ({
+        id: index + 1,
+        name: polygon.properties.name,
+        color: polygon.properties.color,
+      }));
+      setPolygons(formattedPolygons);
     } catch (error) {
       console.error("Error fetching polygons:", error);
     }

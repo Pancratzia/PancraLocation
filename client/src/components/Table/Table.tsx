@@ -5,16 +5,25 @@ import Swal from "sweetalert2";
 
 import "./Table.scss";
 
+interface PolygonRow {
+  id: number;
+  name: string;
+  color: string;
+  _id: string;
+}
+
 type Props = {
   columns: GridColDef[];
-  rows: object[];
+  rows: PolygonRow[];
   onPolygonDeleted: () => void;
 };
 
 const Table = (props: Props) => {
+
   const handleDelete = async (id: number) => {
     try {
-      await axios.delete(`http://localhost:3000/api/polygons/${id}`);
+      const polygonId = props.rows[id - 1]._id;
+      await axios.delete(`http://localhost:3000/api/polygons/${polygonId}`);  
       Swal.fire({
         icon: "success",
         title: "Deleted",
