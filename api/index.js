@@ -6,51 +6,57 @@ const port = parseInt(process.env.PORT) || 3000;
 
 const app = express();
 app.use(cors());
-const db = new Datastore({ filename: './database/polygons.db', autoload: true });
+const db = new Datastore({ filename: './database/nedb_polygons.db', autoload: true });
 
 app.use(bodyParser.json());
 
-// CREATE A NEW POLYGON
-app.post('/api/polygons', (req, res) => {
+// CREATE POLYGON
+app.post('/api/polygons', async (req, res) => {
   const { features } = req.body;
+  const errors = [];
 
-  const messages = [];
+  for (const feature of features) {
+    const { properties, geometry } = feature;
 
-  features.forEach(feature => {
-    const { geometry, properties } = feature;
     if (geometry.type === 'Polygon') {
-      db.findOne({ 'properties.name': properties.name }, (err, existingPolygon) => {
-        if (err) {
-          console.error('Error checking for existing polygon:', err);
-          res.status(500).json({ message: 'Error registering the polygon' });
-        } else if (existingPolygon) {
-          messages.push(`Polygon ${properties.name} already exists`);
-        } else {
-          const polygon = {
-            type: 'Feature',
-            properties: properties,
-            geometry: geometry
-          };
+      const name = properties.name || '';
+      const color = properties.color || '';
+
+      if (!name || !color) {
+        errors.push('Name and color are required for each polygon');
+        continue;
+      }
+
+      const polygon = {
+        type: 'Feature',
+        properties: {
+          name: name.toUpperCase(),
+          color: color
+        },
+        geometry: geometry
+      };
+
+      try {
+        await new Promise((resolve, reject) => {
           db.insert(polygon, (err, insertedPolygon) => {
-            if (err) {
-              console.error('Error inserting polygon:', err);
-              res.status(500).json({ message: 'Error registering the polygon' });
-            }
+            if (err) reject(err);
+            resolve(insertedPolygon);
           });
-        }
-
-        if (messages.length === features.length) {
-          if (messages.length > 0) {
-            res.status(400).json({ message: messages.join('\n') });
-          } else {
-            res.json({ message: 'Polygons registered successfully' });
-          }
-        }
-      });
+        });
+      } catch (err) {
+        console.error('Error:', err);
+        res.status(500).json({ message: 'Error registering the polygon' });
+        return;
+      }
     }
-  });
-});
+  }
 
+  if (errors.length > 0) {
+    res.status(400).json({ message: errors.join('\n') });
+  } else {
+    res.json({ message: 'Polygon registered successfully' });
+  }
+});
 
 // GET ALL POLYGONS
 app.get('/api/polygons', (req, res) => {
@@ -68,27 +74,29 @@ app.get('/api/polygons', (req, res) => {
 app.delete('/api/polygons/:id', (req, res) => {
   const polygonId = req.params.id;
 
-  db.findOne({ _id: polygonId }, (err, polygon) => {
+  db.findOne({ _id: polygonId }, (err, existingPolygon) => {
     if (err) {
-      console.error('Error finding polygon:', err);
-      res.status(500).json({ message: 'Error finding the polygon' });
-    } else if (!polygon) {
-      res.status(404).json({ message: 'Polygon not found' });
-    } else {
-      db.remove({ _id: polygonId }, {}, (err, numRemoved) => {
-        if (err) {
-          console.error('Error deleting polygon:', err);
-          res.status(500).json({ message: 'Error deleting the polygon' });
-        } else {
-          res.json({ message: 'Polygon deleted successfully' });
-        }
-      });
+      console.error('Error checking existing polygon:', err);
+      res.status(500).json({ message: 'Error deleting the polygon' });
+      return;
     }
+
+    if (!existingPolygon) {
+      res.status(400).json({ message: 'Polygon does not exist' });
+      return;
+    }
+
+    db.remove({ _id: polygonId }, {}, (err, numRemoved) => {
+      if (err) {
+        console.error('Error deleting polygon:', err);
+        res.status(500).json({ message: 'Error deleting the polygon' });
+      } else {
+        res.json({ message: 'Polygon deleted successfully' });
+      }
+    });
   });
 });
-
 
 app.listen(port, () => {
   console.log(`Listening to http://localhost:${port}`);
 });
-

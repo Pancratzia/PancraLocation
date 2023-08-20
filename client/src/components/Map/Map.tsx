@@ -18,11 +18,16 @@ interface Coordinates {
   lng: number;
 }
 
-interface PolygonData {
-  id: number;
-  name: string;
-  color: string;
-  coordinates: { latitude: number; longitude: number }[];
+interface GeoJSONFeature {
+  type: string;
+  properties: {
+    name: string;
+    color: string;
+  };
+  geometry: {
+    type: string;
+    coordinates: [number, number][][];
+  };
 }
 
 type Props = {
@@ -37,7 +42,7 @@ function Map(props: Props) {
     lat: parseFloat(props.latitude) || 0,
     lng: parseFloat(props.longitude) || 0,
   });
-  const [polygons, setPolygons] = useState<PolygonData[]>([]);
+  const [geoJSONFeatures, setGeoJSONFeatures] = useState<GeoJSONFeature[]>([]);
 
   useEffect(() => {
     setPosition({
@@ -57,13 +62,13 @@ function Map(props: Props) {
     axios
       .get("http://localhost:3000/api/polygons")
       .then((response) => {
-        setPolygons(response.data);
+        setGeoJSONFeatures(response.data);
       })
       .catch((error) => {
         console.error("Error fetching polygons:", error);
       });
   }, []);
-  
+
   return (
     <div className="map">
       <MapContainer center={position} zoom={13} scrollWheelZoom={true}>
@@ -78,16 +83,19 @@ function Map(props: Props) {
           <Popup>You're Here</Popup>
         </Marker>
 
-        {polygons.map((polygon) => (
+        {geoJSONFeatures.map((feature, index) => (
           <Polygon
-            key={polygon.id}
-            positions={polygon.coordinates.map((coord) => [
-              coord.latitude,
-              coord.longitude,
+            key={index}
+            positions={feature.geometry.coordinates[0].map((coord) => [
+              coord[1],
+              coord[0],
             ])}
-            pathOptions={{ color: polygon.color,  fillRule: "nonzero",}}
+            pathOptions={{
+              color: feature.properties.color,
+              fillRule: "nonzero",
+            }}
           >
-            <Tooltip>{polygon.name}</Tooltip>
+            <Tooltip>{feature.properties.name}</Tooltip>
           </Polygon>
         ))}
 
@@ -103,15 +111,11 @@ function ChangeView({ center, zoom }: { center: Coordinates; zoom: number }) {
   return null;
 }
 
-export default Map;
-
 function MapClickHandler({
   onMapClick,
 }: {
   onMapClick: (lat: number, lng: number) => void;
 }) {
-  const map = useMap();
-
   useMapEvents({
     click: (e) => {
       const { lat, lng } = e.latlng;
@@ -121,3 +125,5 @@ function MapClickHandler({
 
   return null;
 }
+
+export default Map;
