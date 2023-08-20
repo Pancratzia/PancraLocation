@@ -25,15 +25,20 @@ function Add(props: Props) {
       const name = formData.get("name") as string;
       const color = formData.get("color") as string;
   
-      const formattedCoordinates = coordinates.map(([latitude, longitude]) => ({
-        latitude,
-        longitude,
-      }));
+      const polygonFeature = {
+        type: "Feature",
+        properties: {
+          name: name,
+          color: color,
+        },
+        geometry: {
+          type: "Polygon",
+          coordinates: [coordinates],
+        },
+      };
   
       const response = await axios.post("http://localhost:3000/api/polygons", {
-        name,
-        color,
-        coordinates: formattedCoordinates,
+        features: [polygonFeature],
       });
   
       if (response.status === 200) {
@@ -45,7 +50,6 @@ function Add(props: Props) {
         props.setOpen(false);
         props.onPolygonAdded();
       }
-      
     } catch (error) {
       if (axios.isAxiosError(error)) {
         Swal.fire({
@@ -53,9 +57,9 @@ function Add(props: Props) {
           title: 'Error',
           text: error.message,
         });
+      }
     }
-  }};
-  
+  };
 
   return (
     <div className="addModal">

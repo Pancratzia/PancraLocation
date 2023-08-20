@@ -13,13 +13,15 @@ function DrawableMap({ onPolygonDrawn }: DrawableMapProps) {
   const [isDrawing, setIsDrawing] = useState(false);
 
   const handlePolygonCreated = (e: any) => {
-    const newPolygon = e.layer.getLatLngs()[0].map((latLng: any) => [latLng.lat, latLng.lng]);
-    setPolygon(newPolygon);
-    onPolygonDrawn(newPolygon);
+    const newPolygon = e.layer.getLatLngs()[0].map((latLng: any) => [latLng.lng, latLng.lat]);
+    const closedPolygon = [...newPolygon, newPolygon[0]];
+    setPolygon(closedPolygon);
+    onPolygonDrawn(closedPolygon);
     setIsDrawing(false);
   };
+  
 
-  const handleMapClick = (e: any) => {
+  const handleMapClick = () => {
     if (!isDrawing) {
       setPolygon([]);
       setIsDrawing(true);

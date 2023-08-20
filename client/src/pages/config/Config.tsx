@@ -6,7 +6,7 @@ import "./Config.scss";
 import Swal from 'sweetalert2';
 
 const columns = [
-  { field: "id", headerName: "ID", flex: 1, type: "number" },
+  { field: "id", headerName: "ID", flex: 1, type: "string", },
   {
     field: "name",
     headerName: "Polygon",
@@ -45,8 +45,8 @@ function Config() {
   const fetchPolygons = async () => {
     try {
       const response = await axios.get('http://localhost:3000/api/polygons');
-      const formattedPolygons = response.data.map((polygon: Polygon, index: number) => ({
-        id: index + 1,
+      const formattedPolygons = response.data.map((polygon: Polygon) => ({
+        id: polygon._id,
         name: polygon.properties.name,
         color: polygon.properties.color,
       }));
