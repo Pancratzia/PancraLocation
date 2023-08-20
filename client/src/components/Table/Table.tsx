@@ -22,7 +22,7 @@ const Table = (props: Props) => {
 
   const handleDelete = async (polygonId: string) => {
     try {
-      await axios.delete(`http://localhost:3000/api/polygons/${polygonId}`);
+      await axios.delete(`/api/polygons/${polygonId}`);
       Swal.fire({
         icon: "success",
         title: "Deleted",

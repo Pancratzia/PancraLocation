@@ -44,7 +44,7 @@ function Config() {
 
   const fetchPolygons = async () => {
     try {
-      const response = await axios.get('http://localhost:3000/api/polygons');
+      const response = await axios.get('/api/polygons');
       const formattedPolygons = response.data.map((polygon: Polygon) => ({
         id: polygon._id,
         name: polygon.properties.name,

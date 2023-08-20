@@ -37,7 +37,7 @@ function Add(props: Props) {
         },
       };
   
-      const response = await axios.post("http://localhost:3000/api/polygons", {
+      const response = await axios.post("/api/polygons", {
         features: [polygonFeature],
       });
   

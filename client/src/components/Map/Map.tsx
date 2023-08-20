@@ -60,7 +60,7 @@ function Map(props: Props) {
 
   useEffect(() => {
     axios
-      .get("http://localhost:3000/api/polygons")
+      .get("/api/polygons")
       .then((response) => {
         setGeoJSONFeatures(response.data);
       })
