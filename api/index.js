@@ -12,6 +12,18 @@ app.use(bodyParser.json());
 
 // CREATE POLYGON
 app.post('/api/polygons', async (req, res) => {
+  const existingPolygonsCount = await new Promise((resolve, reject) => {
+    db.count({ 'geometry.type': 'Polygon' }, (err, count) => {
+      if (err) reject(err);
+      resolve(count);
+    });
+  });
+
+  if (existingPolygonsCount >= 5) {
+    res.status(400).json({ message: 'Cannot register more than 5 polygons' });
+    return;
+  }
+
   const { features } = req.body;
   const errors = [];
 
@@ -19,6 +31,13 @@ app.post('/api/polygons', async (req, res) => {
     const { properties, geometry } = feature;
 
     if (geometry.type === 'Polygon') {
+      const coordinates = geometry.coordinates || [];
+
+      if (coordinates.length === 0) {
+        errors.push('Coordinates are required for each polygon');
+        continue;
+      }
+
       const name = properties.name || '';
       const color = properties.color || '';
 
